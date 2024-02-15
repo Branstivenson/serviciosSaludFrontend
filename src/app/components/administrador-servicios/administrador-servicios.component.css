@@ -1,0 +1,7 @@
+.columna{
+
+    display: flex;
+    flex-direction: row;
+    -ms-flex-align: center;
+
+}

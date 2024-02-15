@@ -1,0 +1,94 @@
+<button class="btn btn-secondary mt-3" routerLink="">
+  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-return-left"
+    viewBox="0 0 16 16">
+    <path fill-rule="evenodd"
+      d="M14.5 1.5a.5.5 0 0 1 .5.5v4.8a2.5 2.5 0 0 1-2.5 2.5H2.707l3.347 3.346a.5.5 0 0 1-.708.708l-4.2-4.2a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 8.3H12.5A1.5 1.5 0 0 0 14 6.8V2a.5.5 0 0 1 .5-.5" />
+  </svg>
+  Volver
+</button>
+
+<div class="text-center">
+  <h1>Administrar Servicios de Salud</h1>
+  <button class="btn btn-primary mt-3" routerLink="/administrador_servicios/insertar">Insertar un nuevo servicio de
+    salud</button>
+  <nav class="mt-5 mb-5">
+    <div class="container-fluid">
+      <form (ngSubmit)="buscar()" class="d-flex" role="search">
+        <button class="btn btn-outline-secondary me-2" type="button" (click)="listar()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+            class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z" />
+            <path
+              d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466" />
+          </svg>
+        </button>
+        <input [(ngModel)]="cadena" name="buscar" class="form-control me-2" type="search"
+          placeholder="Buscar servicios por nombre">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+      </form>
+    </div>
+  </nav>
+</div>
+
+<form class="columna mb-5" [hidden]="formularioOculto" (ngSubmit)="formularioOculto=true;editar(servicioData)"
+  #formServicioData="ngForm">
+
+  <div class="form-floating mb-3 me-2">
+    <input class="form-control" id="floatingId" [(ngModel)]="servicioData.idCodigoServicio" name="id" #id="ngModel"
+      disabled>
+    <label for="floatingId">Id</label>
+  </div>
+
+  <div class="form-floating mb-3 me-2">
+    <input class="form-control" id="floatingCodigo" [(ngModel)]="servicioData.codigoServicio" name="codigo"
+      #codigo="ngModel" required>
+    <label for="floatingCodigo">Codigo</label>
+  </div>
+
+  <div class="form-floating mb-3 me-2">
+    <input class="form-control" id="floatingNombre" [(ngModel)]="servicioData.nombreServicio" name="nombre"
+      #nombre="ngModel" required>
+    <label for="floatingNombre">Nombre</label>
+  </div>
+
+  <div class="form-floating mb-3 me-2">
+    <select class="form-select" id="floatingSelect" [(ngModel)]="servicioData.codigoTipoServicio" name="tipo"
+      required #tipo="ngModel">
+      <option value="CUM">CUM</option>
+      <option value="CUP">CUP</option>
+    </select>
+    <label for="floatingSelect">Tipo</label>
+  </div>
+
+  <div class="mb-3 me-2">
+    <button type="button" class="btn btn-secondary me-2" (click)="formularioOculto=true">Cancelar</button>
+    <button type="submit" class="btn btn-success" [disabled]="formServicioData.invalid">Guardar</button>
+  </div>
+</form>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">codigo del Servicio</th>
+      <th scope="col">nombre del Servicio</th>
+      <th scope="col">Tipo de Servicio</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let servicio of servicios.slice(0,20); let i=index">
+      <th scope="row">{{i+1}}</th>
+      <td>{{servicio.codigoServicio}}</td>
+      <td>{{servicio.nombreServicio}}</td>
+      <td>{{servicio.codigoTipoServicio}}</td>
+      <td>
+        <button class="btn btn-primary" (click)="traerDatos(servicio);formularioOculto=false">Editar</button>
+      </td>
+      <td><button class="btn btn-danger" (click)="eliminar(servicio.idCodigoServicio)">Eliminar</button>
+      </td>
+
+    </tr>
+  </tbody>
+</table>
